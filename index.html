@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عدستي الاحترافية | معرض المصور زياد</title>
+    <title>عدسة زياد | معرض الصور الاحترافي</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
@@ -16,9 +16,13 @@
         .dark { background-color: #0f172a; color: #f1f5f9; }
         .dark nav { background-color: #1e293b; border-bottom: 1px solid #334155; }
         .dark .bg-white { background-color: #1e293b; color: white; }
-        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
         .gallery-item:hover .overlay { opacity: 1; transform: translateY(0); }
         #modal { backdrop-filter: blur(8px); display: none; }
+        .name-gradient {
+            background: linear-gradient(to left, #4f46e5, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -26,13 +30,13 @@
     <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-[100] transition-all">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <h1 class="text-2xl font-bold bg-gradient-to-l from-indigo-600 to-purple-500 bg-clip-text text-transparent">عدستي</h1>
+                <h1 class="text-2xl font-bold name-gradient">عدسة زياد</h1>
             </div>
             
             <div class="hidden md:flex items-center gap-8 font-medium">
                 <a href="#gallery" class="hover:text-indigo-600 transition">المعرض</a>
-                <a href="#stats" class="hover:text-indigo-600 transition">إحصائيات</a>
-                <a href="#about" class="hover:text-indigo-600 transition">عني</a>
+                <a href="#about" class="hover:text-indigo-600 transition">من أنا؟</a>
+                <a href="#contact" class="hover:text-indigo-600 transition">تواصل معي</a>
                 <button id="themeToggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition">
                     <i class="fas fa-moon text-xl"></i>
                 </button>
@@ -40,191 +44,135 @@
         </div>
     </nav>
 
-    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden bg-slate-900">
+    <header class="relative h-[50vh] flex items-center justify-center overflow-hidden bg-slate-900">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1493246507139-91e8bef99c02?auto=format&fit=crop&q=80&w=1500" class="w-full h-full object-cover opacity-50">
+            <img src="https://images.unsplash.com/photo-1493246507139-91e8bef99c02?auto=format&fit=crop&q=80&w=1500" class="w-full h-full object-cover opacity-40">
         </div>
         <div class="relative z-10 text-center px-4" data-aos="zoom-in">
-            <h2 class="text-5xl md:text-7xl font-bold text-white mb-6">جمالُ التفاصيل</h2>
-            <p class="text-xl text-slate-200 mb-8 max-w-2xl mx-auto">رحلة بصرية توثق سحر الطبيعة وروح المدن من خلال عدستي الخاصة.</p>
-            <div class="flex flex-col md:flex-row justify-center gap-4">
-                <div class="relative group">
-                    <input type="text" id="searchInput" onkeyup="searchGallery()" placeholder="ابحث عن صورة..." 
-                           class="px-6 py-3 rounded-full w-80 text-gray-900 focus:ring-4 focus:ring-indigo-300 outline-none transition-all">
-                    <i class="fas fa-search absolute left-4 top-4 text-gray-400"></i>
-                </div>
-            </div>
+            <h2 class="text-4xl md:text-6xl font-bold text-white mb-4">مرحباً، أنا زياد</h2>
+            <p class="text-xl text-slate-200 mb-8 max-w-2xl mx-auto">مصور فوتوغرافي أسعى لتوثيق الجمال في كل زاوية.</p>
+            <a href="#gallery" class="bg-indigo-600 text-white px-8 py-3 rounded-full hover:bg-indigo-700 transition shadow-lg">استكشف أعمالي</a>
         </div>
     </header>
 
-    <section id="stats" class="py-12 bg-indigo-600 text-white">
-        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div data-aos="fade-up">
-                <p class="text-4xl font-bold" id="imgCount">0</p>
-                <p class="text-indigo-200">صورة فنية</p>
+    <main id="gallery" class="container mx-auto px-6 py-16">
+        <div class="flex justify-between items-center mb-12" data-aos="fade-up">
+            <h3 class="text-3xl font-bold border-r-4 border-indigo-600 pr-4">أحدث أعمالي</h3>
+            <div class="relative">
+                <input type="text" id="searchInput" onkeyup="searchGallery()" placeholder="ابحث في الصور..." 
+                       class="px-4 py-2 rounded-lg border focus:ring-2 focus:ring-indigo-400 outline-none w-64 text-sm">
             </div>
-            <div data-aos="fade-up" data-aos-delay="100">
-                <p class="text-4xl font-bold">150+</p>
-                <p class="text-indigo-200">عميل سعيد</p>
+        </div>
+
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             </div>
-            <div data-aos="fade-up" data-aos-delay="200">
-                <p class="text-4xl font-bold" id="totalLikes">0</p>
-                <p class="text-indigo-200">إعجاب</p>
-            </div>
-            <div data-aos="fade-up" data-aos-delay="300">
-                <p class="text-4xl font-bold">12</p>
-                <p class="text-indigo-200">جائزة تقديرية</p>
+    </main>
+
+    <section id="about" class="bg-white py-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/3" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&q=80&w=500" 
+                         class="rounded-2xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-700" alt="زياد">
+                </div>
+                <div class="md:w-2/3" data-aos="fade-right">
+                    <h3 class="text-4xl font-bold mb-6 text-indigo-600">عن زياد</h3>
+                    <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                        أنا زياد، مصور شغوف بالضوء والظل. أؤمن أن كل صورة هي قصة تستحق أن تُحكى. تخصصت في تصوير الطبيعة والبورتريه منذ سنوات، وحصلت على عدة إشادات لأسلوبي الفريد في إبراز التفاصيل الدقيقة.
+                    </p>
+                    <div class="flex gap-4">
+                        <div class="text-center p-4 bg-slate-50 rounded-xl flex-1">
+                            <span class="block text-2xl font-bold text-indigo-600">10+</span>
+                            <span class="text-sm text-gray-500">سنوات خبرة</span>
+                        </div>
+                        <div class="text-center p-4 bg-slate-50 rounded-xl flex-1">
+                            <span class="block text-2xl font-bold text-indigo-600">500+</span>
+                            <span class="text-sm text-gray-500">جلسة تصوير</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <main id="gallery" class="container mx-auto px-6 py-16">
-        <div class="flex flex-wrap justify-center mb-12 gap-3" data-aos="fade-down">
-            <button onclick="filterGallery('all')" class="filter-btn active px-8 py-2.5 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-200 transition-all hover:scale-105">الكل</button>
-            <button onclick="filterGallery('nature')" class="filter-btn px-8 py-2.5 rounded-full bg-white text-gray-600 shadow-sm border hover:bg-slate-50 transition-all hover:scale-105">طبيعة</button>
-            <button onclick="filterGallery('urban')" class="filter-btn px-8 py-2.5 rounded-full bg-white text-gray-600 shadow-sm border hover:bg-slate-50 transition-all hover:scale-105">مدن</button>
-            <button onclick="filterGallery('portraits')" class="filter-btn px-8 py-2.5 rounded-full bg-white text-gray-600 shadow-sm border hover:bg-slate-50 transition-all hover:scale-105">بورتريه</button>
-        </div>
-
-        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <section id="contact" class="bg-slate-50 py-20">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h3 class="text-3xl font-bold mb-4">هل لديك مشروع؟ تواصل مع زياد</h3>
+                <p class="text-gray-500">أنا متاح دائماً للمشاريع الجديدة والأفكار الإبداعية.</p>
             </div>
-    </main>
-
-    <div id="modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/95">
-        <button onclick="closeModal()" class="absolute top-8 right-8 text-white text-3xl hover:text-red-500 transition"><i class="fas fa-times"></i></button>
-        <button onclick="prevImg()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-left"></i></button>
-        <button onclick="nextImg()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-right"></i></button>
-        
-        <div class="max-w-5xl w-full h-full flex flex-col items-center justify-center">
-            <img id="modal-img" src="" class="max-w-full max-h-[80vh] rounded-lg shadow-2xl object-contain">
-            <h3 id="modal-title" class="text-white text-2xl mt-6 font-bold"></h3>
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-8 rounded-2xl shadow-xl" data-aos="flip-up">
+                <input type="text" placeholder="اسمك" class="p-4 bg-slate-50 rounded-lg outline-none focus:ring-2 focus:ring-indigo-400">
+                <input type="email" placeholder="بريدك الإلكتروني" class="p-4 bg-slate-50 rounded-lg outline-none focus:ring-2 focus:ring-indigo-400">
+                <textarea placeholder="رسالتك لزياد" rows="4" class="md:col-span-2 p-4 bg-slate-50 rounded-lg outline-none focus:ring-2 focus:ring-indigo-400"></textarea>
+                <button type="submit" class="md:col-span-2 bg-indigo-600 text-white font-bold py-4 rounded-lg hover:bg-indigo-700 transition">إرسال الآن</button>
+            </form>
         </div>
-    </div>
+    </section>
 
-    <footer class="bg-slate-900 text-slate-400 py-12 text-center">
-        <div class="flex justify-center gap-6 mb-6 text-2xl text-white">
-            <a href="#" class="hover:text-indigo-400 transition"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="hover:text-indigo-400 transition"><i class="fab fa-behance"></i></a>
-            <a href="#" class="hover:text-indigo-400 transition"><i class="fab fa-twitter"></i></a>
+    <footer class="bg-slate-900 text-slate-400 py-10 text-center">
+        <p class="mb-4 text-white text-lg font-bold">زياد | فوتوغرافي</p>
+        <div class="flex justify-center gap-6 mb-8">
+            <a href="#" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="hover:text-white transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="hover:text-white transition"><i class="fab fa-behance"></i></a>
         </div>
-        <p>© 2024 جميع الحقوق محفوظة لزياد - تم التطوير بحب</p>
+        <p class="text-sm">© 2024 جميع الحقوق محفوظة للمصور زياد</p>
     </footer>
 
+    <div id="modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/90">
+        <button onclick="closeModal()" class="absolute top-8 right-8 text-white text-3xl"><i class="fas fa-times"></i></button>
+        <img id="modal-img" src="" class="max-w-full max-h-[85vh] rounded-lg shadow-2xl">
+    </div>
+
     <script>
-        // Data
         const photos = [
-            { id: 0, category: 'nature', url: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&q=80&w=800', title: 'الجبال الشاهقة', likes: 124 },
-            { id: 1, category: 'urban', url: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&q=80&w=800', title: 'أضواء المدينة', likes: 89 },
-            { id: 2, category: 'nature', url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800', title: 'الغابة المسحورة', likes: 210 },
-            { id: 3, category: 'portraits', url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800', title: 'تأمل عميق', likes: 45 },
-            { id: 4, category: 'nature', url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800', title: 'قمم الثلج', likes: 167 },
-            { id: 5, category: 'urban', url: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&q=80&w=800', title: 'ناطحات سحاب', likes: 302 },
-            { id: 6, category: 'portraits', url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=800', title: 'براءة طفل', likes: 156 },
-            { id: 7, category: 'nature', url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=800', title: 'الضباب الصباحي', likes: 92 },
+            { id: 1, url: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&q=80&w=800', title: 'سحر الجبال' },
+            { id: 2, url: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&q=80&w=800', title: 'أضواء المدينة' },
+            { id: 3, url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800', title: 'أسرار الغابة' },
+            { id: 4, url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800', title: 'بورتريه تأملي' },
         ];
 
-        let currentImgIdx = 0;
-        let activePhotos = [...photos];
-
-        // Initialization
-        window.onload = () => {
-            AOS.init({ duration: 1000, once: true });
-            renderGallery(photos);
-            updateStats();
-        };
-
-        // Dark Mode Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.onclick = () => {
-            document.body.classList.toggle('dark');
-            const icon = themeToggle.querySelector('i');
-            icon.classList.toggle('fa-moon');
-            icon.classList.toggle('fa-sun');
-        };
-
-        // Render Gallery
         function renderGallery(items) {
             const grid = document.getElementById('gallery-grid');
-            grid.innerHTML = '';
-            
-            items.forEach((photo, index) => {
-                const card = `
-                    <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-md bg-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl" 
-                         data-aos="fade-up" data-aos-delay="${index * 50}">
-                        <img src="${photo.url}" class="w-full h-72 object-cover" alt="${photo.title}">
-                        <div class="overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-all duration-300 flex flex-col justify-end p-6">
-                            <h4 class="text-white text-xl font-bold mb-2">${photo.title}</h4>
-                            <div class="flex justify-between items-center text-white">
-                                <button onclick="toggleLike(${photo.id})" class="flex items-center gap-2 hover:text-red-500 transition">
-                                    <i class="fas fa-heart"></i> <span id="like-count-${photo.id}">${photo.likes}</span>
-                                </button>
-                                <button onclick="openModal(${photo.id})" class="bg-white/20 p-2 rounded-full backdrop-blur-md hover:bg-white/40 transition">
-                                    <i class="fas fa-expand"></i>
-                                </button>
-                            </div>
-                        </div>
+            grid.innerHTML = items.map((photo, index) => `
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg cursor-pointer" 
+                     data-aos="fade-up" data-aos-delay="${index * 100}" onclick="openModal('${photo.url}')">
+                    <img src="${photo.url}" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="overlay absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition-opacity flex items-end p-4">
+                        <p class="text-white font-bold">${photo.title}</p>
                     </div>
-                `;
-                grid.innerHTML += card;
-            });
-            document.getElementById('imgCount').innerText = items.length;
+                </div>
+            `).join('');
         }
 
-        // Filtering
-        function filterGallery(category) {
-            activePhotos = category === 'all' ? photos : photos.filter(p => p.category === category);
-            renderGallery(activePhotos);
-        }
-
-        // Searching
         function searchGallery() {
             const term = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = photos.filter(p => p.title.toLowerCase().includes(term) || p.category.includes(term));
+            const filtered = photos.filter(p => p.title.toLowerCase().includes(term));
             renderGallery(filtered);
         }
 
-        // Like System
-        function toggleLike(id) {
-            const photo = photos.find(p => p.id === id);
-            photo.likes++;
-            document.getElementById(`like-count-${id}`).innerText = photo.likes;
-            updateStats();
-        }
-
-        function updateStats() {
-            const total = photos.reduce((acc, p) => acc + p.likes, 0);
-            document.getElementById('totalLikes').innerText = total;
-        }
-
-        // Modal Logic
-        const modal = document.getElementById('modal');
-        function openModal(id) {
-            currentImgIdx = activePhotos.findIndex(p => p.id === id);
-            updateModalContent();
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function updateModalContent() {
-            const photo = activePhotos[currentImgIdx];
-            document.getElementById('modal-img').src = photo.url;
-            document.getElementById('modal-title').innerText = photo.title;
-        }
-
-        function nextImg() {
-            currentImgIdx = (currentImgIdx + 1) % activePhotos.length;
-            updateModalContent();
-        }
-
-        function prevImg() {
-            currentImgIdx = (currentImgIdx - 1 + activePhotos.length) % activePhotos.length;
-            updateModalContent();
+        function openModal(url) {
+            document.getElementById('modal-img').src = url;
+            document.getElementById('modal').style.display = 'flex';
         }
 
         function closeModal() {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            document.getElementById('modal').style.display = 'none';
         }
+
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.onclick = () => {
+            document.body.classList.toggle('dark');
+            themeToggle.querySelector('i').classList.toggle('fa-moon');
+            themeToggle.querySelector('i').classList.toggle('fa-sun');
+        };
+
+        window.onload = () => {
+            AOS.init();
+            renderGallery(photos);
+        };
     </script>
 </body>
 </html>
+
