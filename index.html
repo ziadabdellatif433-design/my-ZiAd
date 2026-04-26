@@ -1,194 +1,230 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-</head>
-
-<body>
-  
-</body>
-
-</html><!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مجموعتي الفوتوغرافية</title>
+    <title>عدستي الاحترافية | معرض المصور زياد</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #f8fafc;
-        }
-        .gallery-item {
-            transition: transform 0.3s ease-in-out;
-        }
-        .gallery-item:hover {
-            transform: scale(1.02);
-        }
-        #modal {
-            display: none;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
+        body { font-family: 'Tajawal', sans-serif; transition: background-color 0.3s; }
+        .dark { background-color: #0f172a; color: #f1f5f9; }
+        .dark nav { background-color: #1e293b; border-bottom: 1px solid #334155; }
+        .dark .bg-white { background-color: #1e293b; color: white; }
+        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .gallery-item:hover .overlay { opacity: 1; transform: translateY(0); }
+        #modal { backdrop-filter: blur(8px); display: none; }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-slate-50 text-slate-800">
 
-    <!-- Header / Nav -->
-    <nav class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-[100] transition-all">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-indigo-600">عدستي</h1>
-            <div class="space-x-reverse space-x-6">
-                <a href="#gallery" class="hover:text-indigo-500 transition">المعرض</a>
-                <a href="#about" class="hover:text-indigo-500 transition">عني</a>
-                <a href="#contact" class="hover:text-indigo-500 transition">اتصل بي</a>
+            <div class="flex items-center gap-4">
+                <h1 class="text-2xl font-bold bg-gradient-to-l from-indigo-600 to-purple-500 bg-clip-text text-transparent">عدستي</h1>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 font-medium">
+                <a href="#gallery" class="hover:text-indigo-600 transition">المعرض</a>
+                <a href="#stats" class="hover:text-indigo-600 transition">إحصائيات</a>
+                <a href="#about" class="hover:text-indigo-600 transition">عني</a>
+                <button id="themeToggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fas fa-moon text-xl"></i>
+                </button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="bg-indigo-600 text-white py-20">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold mb-4">توثيق اللحظات الجمالية</h2>
-            <p class="text-xl text-indigo-100">مجموعة مختارة من رحلاتي وتصويري للطبيعة والحياة</p>
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden bg-slate-900">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1493246507139-91e8bef99c02?auto=format&fit=crop&q=80&w=1500" class="w-full h-full object-cover opacity-50">
+        </div>
+        <div class="relative z-10 text-center px-4" data-aos="zoom-in">
+            <h2 class="text-5xl md:text-7xl font-bold text-white mb-6">جمالُ التفاصيل</h2>
+            <p class="text-xl text-slate-200 mb-8 max-w-2xl mx-auto">رحلة بصرية توثق سحر الطبيعة وروح المدن من خلال عدستي الخاصة.</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <div class="relative group">
+                    <input type="text" id="searchInput" onkeyup="searchGallery()" placeholder="ابحث عن صورة..." 
+                           class="px-6 py-3 rounded-full w-80 text-gray-900 focus:ring-4 focus:ring-indigo-300 outline-none transition-all">
+                    <i class="fas fa-search absolute left-4 top-4 text-gray-400"></i>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Gallery Section -->
-    <main id="gallery" class="container mx-auto px-6 py-12">
-        <div class="flex flex-wrap justify-center mb-10 gap-4">
-            <button onclick="filterGallery('all')" class="px-6 py-2 rounded-full bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 transition">الكل</button>
-            <button onclick="filterGallery('nature')" class="px-6 py-2 rounded-full bg-white text-gray-700 shadow-sm hover:bg-indigo-50 transition border border-gray-200">طبيعة</button>
-            <button onclick="filterGallery('urban')" class="px-6 py-2 rounded-full bg-white text-gray-700 shadow-sm hover:bg-indigo-50 transition border border-gray-200">مدن</button>
-            <button onclick="filterGallery('portraits')" class="px-6 py-2 rounded-full bg-white text-gray-700 shadow-sm hover:bg-indigo-50 transition border border-gray-200">بورتريه</button>
+    <section id="stats" class="py-12 bg-indigo-600 text-white">
+        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div data-aos="fade-up">
+                <p class="text-4xl font-bold" id="imgCount">0</p>
+                <p class="text-indigo-200">صورة فنية</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="100">
+                <p class="text-4xl font-bold">150+</p>
+                <p class="text-indigo-200">عميل سعيد</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <p class="text-4xl font-bold" id="totalLikes">0</p>
+                <p class="text-indigo-200">إعجاب</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="300">
+                <p class="text-4xl font-bold">12</p>
+                <p class="text-indigo-200">جائزة تقديرية</p>
+            </div>
+        </div>
+    </section>
+
+    <main id="gallery" class="container mx-auto px-6 py-16">
+        <div class="flex flex-wrap justify-center mb-12 gap-3" data-aos="fade-down">
+            <button onclick="filterGallery('all')" class="filter-btn active px-8 py-2.5 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-200 transition-all hover:scale-105">الكل</button>
+            <button onclick="filterGallery('nature')" class="filter-btn px-8 py-2.5 rounded-full bg-white text-gray-600 shadow-sm border hover:bg-slate-50 transition-all hover:scale-105">طبيعة</button>
+            <button onclick="filterGallery('urban')" class="filter-btn px-8 py-2.5 rounded-full bg-white text-gray-600 shadow-sm border hover:bg-slate-50 transition-all hover:scale-105">مدن</button>
+            <button onclick="filterGallery('portraits')" class="filter-btn px-8 py-2.5 rounded-full bg-white text-gray-600 shadow-sm border hover:bg-slate-50 transition-all hover:scale-105">بورتريه</button>
         </div>
 
-        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Images will be injected here by JS -->
-        </div>
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            </div>
     </main>
 
-    <!-- About Section -->
-    <section id="about" class="bg-white py-16 border-t">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-8 md:mb-0">
-                <div class="w-64 h-64 mx-auto bg-gray-200 rounded-full overflow-hidden shadow-xl border-4 border-indigo-100">
-                    <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&q=80&w=400" alt="المصور" class="w-full h-full object-cover">
-                </div>
-            </div>
-            <div class="md:w-1/2 text-center md:text-right">
-                <h3 class="text-3xl font-bold mb-4 text-indigo-700">مرحباً، أنا زياد</h3>
-                <p class="text-lg text-gray-600 leading-relaxed mb-6">
-                    مصور فوتوغرافي شغوف بالتقاط التفاصيل التي لا تراها العين المجردة. بدأت رحلتي منذ 10 سنوات وتنقلت بين الجبال والمدن لأحكي قصصاً من خلال عدستي.
-                </p>
-                <div class="flex justify-center md:justify-start space-x-reverse space-x-4">
-                    <span class="bg-indigo-50 text-indigo-700 px-4 py-1 rounded-full text-sm">طبيعة</span>
-                    <span class="bg-indigo-50 text-indigo-700 px-4 py-1 rounded-full text-sm">معماري</span>
-                    <span class="bg-indigo-50 text-indigo-700 px-4 py-1 rounded-full text-sm">ضوء الشمس</span>
-                </div>
-            </div>
+    <div id="modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/95">
+        <button onclick="closeModal()" class="absolute top-8 right-8 text-white text-3xl hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+        <button onclick="prevImg()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-left"></i></button>
+        <button onclick="nextImg()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-right"></i></button>
+        
+        <div class="max-w-5xl w-full h-full flex flex-col items-center justify-center">
+            <img id="modal-img" src="" class="max-w-full max-h-[80vh] rounded-lg shadow-2xl object-contain">
+            <h3 id="modal-title" class="text-white text-2xl mt-6 font-bold"></h3>
         </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="bg-gray-50 py-16">
-        <div class="container mx-auto px-6 max-w-2xl text-center">
-            <h3 class="text-3xl font-bold mb-8">دعنا نتواصل</h3>
-            <form class="space-y-4">
-                <input type="text" placeholder="الاسم" class="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <input type="email" placeholder="البريد الإلكتروني" class="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <textarea placeholder="رسالتك" rows="4" class="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-                <button type="button" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-lg hover:bg-indigo-700 transition">إرسال الرسالة</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-white py-8 border-t">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <p>&copy; 2024 جميع الحقوق محفوظة - معرض الصور الشخصي</p>
-        </div>
-    </footer>
-
-    <!-- Lightbox Modal -->
-    <div id="modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-4xl font-bold hover:text-gray-300 transition">&times;</button>
-        <img id="modal-img" src="" alt="Full View" class="max-w-full max-h-full rounded shadow-2xl">
     </div>
 
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center">
+        <div class="flex justify-center gap-6 mb-6 text-2xl text-white">
+            <a href="#" class="hover:text-indigo-400 transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="hover:text-indigo-400 transition"><i class="fab fa-behance"></i></a>
+            <a href="#" class="hover:text-indigo-400 transition"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>© 2024 جميع الحقوق محفوظة لزياد - تم التطوير بحب</p>
+    </footer>
+
     <script>
+        // Data
         const photos = [
-           const staticImages = [
-  {
-    url: "https://i.ibb.co/rKtsXdLf/IMG-20260317-WA0000.jpg",
-    category: "تصميم",
-    title: "مشروع 1"
-  },
-  {
-    url: "https://i.ibb.co/rKtsXdLf/IMG-20260317-WA0000.jpg",
-    category: "جرافيك",
-    title: "مشروع 2"
-  }
-];
- 
-         
-    
-            
-      function renderGallery(items) {
+            { id: 0, category: 'nature', url: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&q=80&w=800', title: 'الجبال الشاهقة', likes: 124 },
+            { id: 1, category: 'urban', url: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&q=80&w=800', title: 'أضواء المدينة', likes: 89 },
+            { id: 2, category: 'nature', url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800', title: 'الغابة المسحورة', likes: 210 },
+            { id: 3, category: 'portraits', url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800', title: 'تأمل عميق', likes: 45 },
+            { id: 4, category: 'nature', url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800', title: 'قمم الثلج', likes: 167 },
+            { id: 5, category: 'urban', url: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&q=80&w=800', title: 'ناطحات سحاب', likes: 302 },
+            { id: 6, category: 'portraits', url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=800', title: 'براءة طفل', likes: 156 },
+            { id: 7, category: 'nature', url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=800', title: 'الضباب الصباحي', likes: 92 },
+        ];
+
+        let currentImgIdx = 0;
+        let activePhotos = [...photos];
+
+        // Initialization
+        window.onload = () => {
+            AOS.init({ duration: 1000, once: true });
+            renderGallery(photos);
+            updateStats();
+        };
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.onclick = () => {
+            document.body.classList.toggle('dark');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        };
+
+        // Render Gallery
+        function renderGallery(items) {
             const grid = document.getElementById('gallery-grid');
             grid.innerHTML = '';
             
-            items.forEach(photo => {
-                const div = document.createElement('div');
-                div.className = `gallery-item relative cursor-pointer overflow-hidden rounded-xl shadow-lg group`;
-                div.onclick = () => openModal(photo.url);
-                
-                div.innerHTML = `
-                    <img src="${photo.url}" alt="${photo.title}" class="w-full h-64 object-cover transition duration-500 group-hover:opacity-75">
-                    <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300">
-                        <p class="text-white font-medium">${photo.title}</p>
+            items.forEach((photo, index) => {
+                const card = `
+                    <div class="gallery-item group relative overflow-hidden rounded-2xl shadow-md bg-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl" 
+                         data-aos="fade-up" data-aos-delay="${index * 50}">
+                        <img src="${photo.url}" class="w-full h-72 object-cover" alt="${photo.title}">
+                        <div class="overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-all duration-300 flex flex-col justify-end p-6">
+                            <h4 class="text-white text-xl font-bold mb-2">${photo.title}</h4>
+                            <div class="flex justify-between items-center text-white">
+                                <button onclick="toggleLike(${photo.id})" class="flex items-center gap-2 hover:text-red-500 transition">
+                                    <i class="fas fa-heart"></i> <span id="like-count-${photo.id}">${photo.likes}</span>
+                                </button>
+                                <button onclick="openModal(${photo.id})" class="bg-white/20 p-2 rounded-full backdrop-blur-md hover:bg-white/40 transition">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 `;
-                grid.appendChild(div);
+                grid.innerHTML += card;
             });
+            document.getElementById('imgCount').innerText = items.length;
         }
 
+        // Filtering
         function filterGallery(category) {
-            if (category === 'all') {
-                renderGallery(photos);
-            } else {
-                const filtered = photos.filter(p => p.category === category);
-                renderGallery(filtered);
-            }
+            activePhotos = category === 'all' ? photos : photos.filter(p => p.category === category);
+            renderGallery(activePhotos);
         }
 
-        const modal = document.getElementById('modal');
-        const modalImg = document.getElementById('modal-img');
+        // Searching
+        function searchGallery() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = photos.filter(p => p.title.toLowerCase().includes(term) || p.category.includes(term));
+            renderGallery(filtered);
+        }
 
-        function openModal(url) {
-            modalImg.src = url;
+        // Like System
+        function toggleLike(id) {
+            const photo = photos.find(p => p.id === id);
+            photo.likes++;
+            document.getElementById(`like-count-${id}`).innerText = photo.likes;
+            updateStats();
+        }
+
+        function updateStats() {
+            const total = photos.reduce((acc, p) => acc + p.likes, 0);
+            document.getElementById('totalLikes').innerText = total;
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('modal');
+        function openModal(id) {
+            currentImgIdx = activePhotos.findIndex(p => p.id === id);
+            updateModalContent();
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+        }
+
+        function updateModalContent() {
+            const photo = activePhotos[currentImgIdx];
+            document.getElementById('modal-img').src = photo.url;
+            document.getElementById('modal-title').innerText = photo.title;
+        }
+
+        function nextImg() {
+            currentImgIdx = (currentImgIdx + 1) % activePhotos.length;
+            updateModalContent();
+        }
+
+        function prevImg() {
+            currentImgIdx = (currentImgIdx - 1 + activePhotos.length) % activePhotos.length;
+            updateModalContent();
         }
 
         function closeModal() {
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
-
-        // Close modal on click outside image
-        modal.onclick = (e) => {
-            if (e.target === modal) closeModal();
-        }
-
-        // Initial render
-        window.onload = () => renderGallery(photos);
     </script>
 </body>
 </html>
-
- 
